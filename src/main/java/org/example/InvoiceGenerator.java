@@ -1,5 +1,7 @@
 package org.example;
 
+import java.util.List;
+
 public class InvoiceGenerator {
 
     public static final int COST_PER_DISTANCE = 10;
@@ -13,5 +15,13 @@ public class InvoiceGenerator {
     public double calculateFare(double distance, int time) {
         double totalFare = COST_PER_DISTANCE * distance + COST_PER_MINUTE * time;
         return Math.max(totalFare, MINIMUM_FARE);
+    }
+
+    public double calculateFare(List<Ride> rides) {
+        double totalFare = 0;
+        for (Ride ride : rides) {
+            totalFare += calculateFare(ride.getDistance(), ride.getTime());
+        }
+        return totalFare;
     }
 }
