@@ -3,10 +3,18 @@ package org.example;
 public class Ride {
     public int time;
     public double distance;
+    public String category;
+
+    public Ride(double distance, int time, String category) {
+        this.time = time;
+        this.distance = distance;
+        this.category = category;
+    }
 
     public Ride(double distance, int time) {
         this.distance = distance;
         this.time = time;
+        this.category = "normal";
     }
 
     public int getTime() {
