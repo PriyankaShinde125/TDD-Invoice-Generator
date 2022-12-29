@@ -24,4 +24,5 @@ public class Ride {
     public void setDistance(double distance) {
         this.distance = distance;
     }
+
 }

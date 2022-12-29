@@ -23,13 +23,28 @@ public class InvoiceGeneratorTest {
     }
 
     @Test
-    public void givenMultipleRides_shouldReturnSummaryOfInvoice() {
-        List<Ride> rides = new ArrayList<>();
-        rides.add(new Ride(2.5, 5));
-        rides.add(new Ride(0.1, 1));
-        InvoiceGenerator invoiceGenerator = new InvoiceGenerator();
-        InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(2,35);
-        InvoiceSummary invoiceSummary=invoiceGenerator.calculateFare(rides);
-        Assert.assertEquals(expectedInvoiceSummary,invoiceSummary);
+    public void givenMultipleRides_shouldReturnInvoiceForGivenUserId() {
+        List<Ride> user1Rides = new ArrayList<>();
+        user1Rides.add(new Ride(2.5, 5));
+        user1Rides.add(new Ride(0.1, 1));
+        User user1 = new User(1, "Priyanka", Long.parseLong("9518905320"), "pkshinde125@gmail.com");
+
+        List<Ride> user2Rides = new ArrayList<>();
+        user2Rides.add(new Ride(3.5, 5));
+        user2Rides.add(new Ride(0.1, 1));
+        user2Rides.add(new Ride(2.1, 3));
+        User user2 = new User(2, "xyz", Long.parseLong("7515645320"), "xyz@gmail.com");
+
+        RideRepository rideRepository = new RideRepository();
+        rideRepository.userRides.put(user1, user1Rides);
+        rideRepository.userRides.put(user2, user2Rides);
+
+        InvoiceService invoiceService = new InvoiceService(rideRepository);
+        Invoice invoice = invoiceService.getInvoice(2);
+
+        InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(3, 69);
+        Invoice expectedInvoice = new Invoice(user2, expectedInvoiceSummary);
+
+        Assert.assertEquals(expectedInvoice, invoice);
     }
 }
